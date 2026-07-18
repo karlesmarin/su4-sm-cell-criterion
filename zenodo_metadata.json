@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "article",
+    "title": "Three Gates to a Quark Generation: An Exact Criterion for Which SU(4) Representations Contain the Standard Model (Part II)",
+    "creators": [
+      {"name": "Marín, Carles", "affiliation": "Independent researcher"}
+    ],
+    "description": "<p>The companion paper (Part I, DOI 10.5281/zenodo.21432625) embedded a full Standard-Model quark generation in the dimension-60 representation (3,<strong>60</strong>) of SU(4) on T&sup2;/Z&#8322; and showed, by an exhaustive scan, that (3,<strong>60</strong>) is the <em>smallest</em> representation able to do so. This Part II turns that scanned fact into an exact law: <em>which</em> SU(4) representations can hold a quark generation, and why only those.</p><p>An irreducible representation with Dynkin labels (a,b,c) contains the Standard-Model quark cell {Q(2,1/6), u(1,2/3), d(1,&minus;1/3)} in its T&sup2;/Z&#8322; chiral zero modes <strong>if and only if</strong> (a+2b+3c) is odd &and; b&ge;1 &and; a+b+c&ge;3 &mdash; an arithmetic condition (the Z&#8324; centre charge), a geometric one (the middle node of SU(4) excited), and a size one. We derive the criterion by deleting the middle node of the SU(4) Dynkin diagram, exposing a Levi subgroup SU(2)&#8343;&times;SU(2)&#8341;&times;U(1), and projecting the resulting Clebsch&ndash;Gordan tower onto the orbifold's chiral zero modes; the projection collapses the tower to a closed-form zero-mode count N = (b+1)(a+c+1)/2.</p><p>We are explicit about credit: the centre gate is classical, the branching is Littlewood&ndash;Richardson, and the midpoint property (the doublet's 1/6 is the mean of the singlets' 2/3 and &minus;1/3) reflects the Pati&ndash;Salam hypercharge relation. What is new is the orbifold chiral projection that yields the closed count, the packaged three-gate criterion, and the reading of the &plusmn;1/2 cell as the invariant. A node-independence lemma (a simply-laced / Weyl-orbit fact) is included. Finally we place SU(4) in a family: the cell imposes three charge constraints on a hypercharge functional with rank(G)&minus;1 free parameters, so it is a <em>rigid</em> obstruction exactly at rank 3 &mdash; SU(4) is the marginal case, and for higher rank a generic representation admits; the same counting explains why a pinned hypercharge in higher-rank models leaves quarks with integer charges and forces them onto a brane.</p><p>Every count is machine-checked in exact rational arithmetic (SageMath): the criterion is verified against the direct construction on all representations to dimension 900. English and Spanish versions are included, with the exact scripts. The computations were carried out and cross-checked with Claude (Anthropic) as an AI research assistant against a common machine-verifiable ground truth.</p>",
+    "access_right": "open",
+    "license": "apache-2.0",
+    "keywords": [
+      "gauge-Higgs unification",
+      "orbifold",
+      "SU(4)",
+      "Standard Model quarks",
+      "representation theory",
+      "Levi branching",
+      "Clebsch-Gordan",
+      "Littlewood-Richardson",
+      "centre charge",
+      "n-ality",
+      "Pati-Salam",
+      "hypercharge",
+      "classification",
+      "exact computation",
+      "extra dimensions",
+      "high-energy physics",
+      "hep-ph",
+      "hep-th"
+    ],
+    "language": "eng",
+    "related_identifiers": [
+      {"identifier": "10.5281/zenodo.21432625", "relation": "continues", "resource_type": "publication-article"},
+      {"identifier": "arXiv:2603.05857", "relation": "isDerivedFrom", "resource_type": "publication-preprint"},
+      {"identifier": "arXiv:2312.08608", "relation": "references", "resource_type": "publication-preprint"}
+    ]
+  }
+}

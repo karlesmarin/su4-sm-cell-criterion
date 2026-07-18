@@ -1,0 +1,690 @@
+% Autor: Carles Marín (Claude, Anthropic, como asistente de investigación IA).
+% Parte II. Qué representaciones de SU(4) contienen la celda de quarks del Modelo Estándar
+% en T^2/Z_2: un criterio exacto desde una ramificación de Levi y la proyección quiral del orbifold.
+% Narrativa hilada por preguntas; honesta sobre el alcance. Compilar: pdflatex x2.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+\usepackage[colorlinks=true,linkcolor=RoyalBlue,citecolor=BrickRed,urlcolor=RoyalBlue]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\newtheorem{teorema}{Teorema}
+\newtheorem{lema}{Lema}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\RR}{\mathbb{R}}
+\definecolor{okgreen}{RGB}{0,140,54}
+\definecolor{hdrblue}{RGB}{31,78,121}
+\definecolor{softgrey}{RGB}{238,242,247}
+
+\title{\textbf{Tres Puertas a una Generación de Quarks}\\[3pt]
+\textbf{Un Criterio Exacto para Qué Representaciones de $SU(4)$ Contienen el Modelo Estándar,\\
+y Por Qué el Grupo Gauge Es Crítico en Rango Tres}\\[5pt]
+\large\textnormal{Parte II --- la celda $\pm\tfrac12$, una ramificación de Levi, y la
+proyección quiral del orbifold}}
+\author{Carles Mar\'in\thanks{Investigador independiente, \texttt{karlesmarin@gmail.com}.
+Los cálculos se realizaron y contrastaron con Claude (Anthropic) como asistente de
+investigación IA contra una verdad-base verificable por máquina (aritmética racional exacta
+sobre los sistemas de pesos de $SU(n)$ en SageMath); todo recuento de este trabajo se
+regenera desde los scripts anexos.}}
+\date{\today\\[2pt]\small DOI: \href{https://doi.org/10.5281/zenodo.21432628}{10.5281/zenodo.21432628}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+El trabajo compañero embebió una generación completa de quarks del Modelo Estándar en la
+representación de dimensión $60$, $(3,\mathbf{60})$, de $SU(4)$ sobre $T^2/\mathbb{Z}_2$ y
+mostró, por un barrido exhaustivo, que $(3,\mathbf{60})$ es la representación \emph{más
+pequeña} capaz de hacerlo. Esa minimalidad invita a la pregunta general: \emph{cuáles}
+representaciones de $SU(4)$ pueden alojar una generación de quarks, y por qué solo esas. La
+respondemos exactamente. Una representación irreducible de labels de Dynkin $(a,b,c)$
+contiene la celda de quarks del Modelo Estándar
+$\{Q(\mathbf{2},\tfrac16),\,u(\mathbf{1},\tfrac23),\,d(\mathbf{1},-\tfrac13)\}$ en sus modos
+cero quirales de $T^2/\mathbb{Z}_2$ si y solo si
+\[
+(a+2b+3c)\ \text{impar}\quad\wedge\quad b\ge 1\quad\wedge\quad a+b+c\ge 3 .
+\]
+Las tres cláusulas son, en orden, una condición \emph{aritmética} (la carga del centro
+$\ZZ_4$), una \emph{geométrica} (el nodo central de $SU(4)$ excitado) y una de \emph{tamaño}
+(sitio suficiente para cerrar la celda). Derivamos el criterio borrando el nodo central del
+diagrama de Dynkin de $SU(4)$ --- exponiendo un subgrupo de Levi
+$SU(2)_L\times SU(2)_R\times U(1)$ --- y proyectando la torre de Clebsch--Gordan resultante
+sobre los modos cero quirales del orbifold; la proyección colapsa la torre a un recuento
+cerrado de modos cero $N=(b+1)(a+c+1)/2$. Somos explícitos sobre qué es nuevo y qué es
+heredado: la condición del centro es clásica, la ramificación es de Littlewood--Richardson, y
+la propiedad del punto medio (el $\tfrac16$ del doblete es la media de $\tfrac23$ y $-\tfrac13$
+de los singletes) refleja la relación de hipercarga de Pati--Salam; lo nuestro es la
+proyección quiral que produce el recuento cerrado, el empaquetado del criterio, y la lectura
+de la celda como el objeto invariante. Finalmente situamos a $SU(4)$ en una familia: la celda
+impone tres restricciones de carga sobre un funcional de hipercarga con $\mathrm{rango}(G)-1$
+parámetros libres, por lo que es una obstrucción \emph{rígida} exactamente en
+$\mathrm{rango}=3$ --- $SU(4)$ es el caso marginal, y para rango mayor una representación
+genérica admite. El mismo recuento explica, como un efecto de grados-de-libertad-consumidos,
+por qué una hipercarga fijada en modelos de rango mayor deja a los quarks con las cargas
+(enteras) equivocadas y los fuerza a una brana.
+\end{abstract}
+
+% ===================================================================
+\section{De una representación a todas ellas}\label{sec:intro}
+Este trabajo continúa una historia que su compañero comenzó. La Parte~I~\cite{PartI} retomó
+una pregunta abierta desde 2003, cuando Scrucca, Serone, Silvestrini y Wulzer observaron que
+en un orbifold la anulación de los tadpoles localizados y la cancelación de las anomalías son
+requisitos \emph{independientes}, y nombraron la pieza que faltaba --- un espectro libre de
+anomalías con tadpole globalmente nulo --- como un problema abierto~\cite{SSSW}. La Parte~I lo
+abordó en el modelo six-dimensional de dos dobletes de Higgs con $SU(4)$ de Akamatsu, Hirose,
+Maru y Nago~\cite{AHMN}: embebió un bloque coloreado de quarks en la representación de
+dimensión $60$, $(3,\mathbf{60})$, exhibió una completación de $45$ multipletes que cancela
+anomalías y tadpole juntos, y demostró un \emph{Teorema de Existencia} --- sobre esa librería
+fermiónica el tadpole nunca obstruye una completación libre de anomalías --- convirtiendo un
+testigo computacional en una garantía estructural. Cerró con una propuesta: allí donde un
+resultado de construcción de modelos diga ``hemos encontrado uno'', preguntar si el hallazgo
+era en realidad una ley. Este trabajo toma a la Parte~I por su palabra. Pues de pasada, y sin
+explicar por qué, la Parte~I había registrado un segundo hallazgo --- un barrido exhaustivo
+mostrando que $(3,\mathbf{60})$ es la representación \emph{más pequeña} de $SU(4)$ capaz de
+alojar una generación completa de quarks. ¿Por qué esa, y por qué tan pocas? Convertimos el
+hecho barrido en una ley exacta.
+
+Esa pregunta es más antigua que el modelo, y su historia es la de cajas empaquetadas cada vez
+más apretadas. Una construcción gran-unificada o de gauge--Higgs comienza eligiendo una
+representación que porte la materia, y la elección está severamente restringida: la
+representación debe contener, entre sus estados, exactamente los números cuánticos de una
+generación. Georgi y Glashow encajaron una generación en el
+$\overline{\mathbf 5}\oplus\mathbf{10}$ de $SU(5)$~\cite{GeorgiGlashow} --- en dos piezas, y
+sin asiento para un neutrino de mano derecha. Un año después el espinor $\mathbf{16}$ de
+$SO(10)$ cerró la caja: quince fermiones del Modelo Estándar, y un decimosexto lugar que el
+espinor simplemente \emph{tiene}, casi obligando a sentar allí un $\nu_R$~\cite{SO10FM,SO10G}
+--- el grupo sabiendo, por así decir, antes que nosotros. El excepcional $\mathbf{27}$ de
+$E_6$ siguió, ofreciendo una generación más exóticos~\cite{E6}, y Georgi pidió abiertamente
+las tres familias en una sola representación irreducible~\cite{GeorgiFlavor,Yamatsu}, un sueño
+que naufraga en un salón de fermiones espejo. A lo largo de todo ello las tablas de Slansky
+fueron la guía telefónica del campo para decidir qué contiene una
+representación~\cite{Slansky}; el censo reciente de Herms y Ruhdorfer convierte los recuentos
+en una estadística --- qué fracción de la materia libre de anomalías es
+unificable~\cite{HermsRuhdorfer}. Pero la decisión siguió siendo, representación a
+representación, una consulta y no una ley.
+
+Un mínimo es una invitación. Si una representación es la más pequeña, hay un paisaje detrás de
+ella --- y la Parte~I cartografió un único punto. ¿Qué distingue a las representaciones que
+tienen éxito de las que fracasan? ¿Es ``$(3,\mathbf{60})$'' un accidente de dimensión, o el
+primer miembro de una familia con una regla limpia? Este trabajo da la regla, exactamente, y
+lee de ella por qué la familia es tan escasa, por qué el mínimo cae donde cae, y por qué el
+grupo gauge es $SU(4)$ y no algo mayor. Donde la Parte~I validó un testigo, la Parte~II
+cartografía el espacio a su alrededor; juntas van de un modelo consistente a la comprensión de
+todo el paisaje de materia en que vive.
+
+El objeto organizador en todo momento es lo que llamaremos la \emph{celda del Modelo
+Estándar}: el contenido de quarks de triplete de color de una generación, reducido a su
+esqueleto electrodébil,
+\[
+Q\,(\mathbf{2},\tfrac16),\qquad u\,(\mathbf{1},\tfrac23),\qquad d\,(\mathbf{1},-\tfrac13).
+\]
+Los singletes up y down son el doblete desplazado en hipercarga por $\pm\tfrac12$ --- el
+isospín de mano derecha $T^3_R$ de la relación de Pati--Salam que encontramos en
+\S\ref{sec:cell}. El hecho operativo es una pequeña pieza de aritmética: el $\tfrac16$ del
+doblete es la \emph{media} de las cargas de los singletes,
+$\tfrac16=\tfrac12\!\big(\tfrac23+(-\tfrac13)\big)$, de modo que el doblete se sitúa en el
+punto medio exacto de hipercarga de sus dos singletes. Ese punto medio es lo que hace de la
+celda un objeto geométrico rígido en el retículo de pesos, y es donde comienza nuestro
+criterio.
+
+\paragraph{Alcance y relación con trabajo previo.} Somos cuidadosos en separar lo nuevo de lo
+heredado, y la mayoría de los ingredientes son heredados. La condición de carga del centro ---
+que admitir las hipercargas fraccionarias del Modelo Estándar fuerza una clase de congruencia
+fija del centro del grupo gauge --- es clásica, enunciada para el propio $\ZZ_6$ del Modelo
+Estándar por Hucks y por Saller y revisitada por Tong y por Alonso, Dimakou y
+West~\cite{Hucks,Saller,Tong,Alonso}. La ramificación que usamos es una restricción de Levi
+parabólica maximal, cuyas multiplicidades son coeficientes de
+Littlewood--Richardson~\cite{Fulton,GW}. La relación del punto medio es la identidad de
+hipercarga de Pati--Salam, y la observación de que un funcional de hipercarga embebido en un
+grupo simple tiene un número fijo de parámetros libres es el mismo recuento que subyace a la
+clásica cota inferior ``$\mathrm{rango}\ge 4$'' sobre grupos unificados; un análisis
+estrechamente relacionado de funcional-de-Cartan de modelos gauge-Higgs, aunque del sector de
+bosones gauge y no de la celda de materia, se debe a Aranda y Wudka~\cite{ArandaWudka}. No
+reclamamos nueva teoría de grupos. Lo nuestro es triple: (i) el \emph{criterio exacto de tres
+condiciones} para $SU(4)$ sobre $T^2/\mathbb{Z}_2$, empaquetado como un enunciado cerrado
+único (\S\ref{sec:theorem}); (ii) la \emph{proyección quiral del orbifold} que colapsa la
+torre de Clebsch--Gordan de Levi al recuento cerrado de modos cero $N=(b+1)(a+c+1)/2$
+(\S\ref{sec:levi}); y (iii) la lectura de la celda $\pm\tfrac12$ como el invariante, junto con
+la ubicación de $SU(4)$ en el rango crítico (\S\ref{sec:rank}) --- lo último una lente
+interpretativa sobre ingredientes clásicos, no un teorema nuevo. La Figura~\ref{fig:roadmap}
+es la ruta.
+
+\begin{figure}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[font=\small,
+  act/.style={rounded corners,draw,thick,text width=3.35cm,align=center,inner sep=6pt,minimum height=4.0cm,anchor=north},
+  arr/.style={-{Stealth[length=3.4mm]},very thick,black!55}]
+\node[act,fill=RoyalBlue!8,draw=RoyalBlue!65] (a1) at (0,0)
+ {\textbf{I.\ Una}\\[1pt]{\footnotesize\S\,1}\\[5pt]
+  \textit{$(3,\mathbf{60})$ aloja una}\\\textit{generación, y es}\\\textit{mínima (Parte I)}\\[6pt]
+  {\footnotesize\color{RoyalBlue}\textbf{un solo testigo}}};
+\node[act,fill=okgreen!9,draw=okgreen!65] (a2) at (5.5,0)
+ {\textbf{II.\ Todas}\\[1pt]{\footnotesize\S\S\,2--5}\\[5pt]
+  \textit{¿Qué $(a,b,c)$}\\\textit{contienen la celda?}\\[6pt]
+  {\footnotesize$(a{+}2b{+}3c)$ impar\\$\wedge\ b\ge1\ \wedge\ a{+}b{+}c\ge3$}\\[5pt]
+  {\footnotesize\color{okgreen}\textbf{criterio exacto}}};
+\node[act,fill=softgrey,draw=hdrblue!65] (a3) at (11.0,0)
+ {\textbf{III.\ Por qué}\\[1pt]{\footnotesize\S\S\,4,6}\\[5pt]
+  \textit{Borra el nodo}\\\textit{central: una torre de}\\\textit{Levi, partida por paridad}\\[6pt]
+  {\footnotesize $N=(b{+}1)\tfrac{a+c+1}{2}$}};
+\node[act,fill=black!5,draw=black!45,dashed] (a4) at (16.5,0)
+ {\textbf{IV.\ Qué grupo}\\[1pt]{\footnotesize\S\,7}\\[5pt]
+  \textit{Rígido solo en}\\\textit{$\mathrm{rango}=3$;}\\\textit{$SU(4)$ marginal}\\[6pt]
+  {\footnotesize\color{hdrblue}\textbf{caso crítico}}};
+\draw[arr] (a1.east) -- node[above,font=\footnotesize\itshape,black!70]{generaliza} (a2.west);
+\draw[arr] (a2.east) -- node[above,font=\footnotesize\itshape,black!70]{deriva} (a3.west);
+\draw[arr] (a3.east) -- node[above,font=\footnotesize\itshape,black!70]{ubica} (a4.west);
+\end{tikzpicture}}
+\caption{La ruta de este trabajo. Del único testigo mínimo de la Parte~I a un criterio exacto
+para todas las representaciones; el criterio se deriva por una ramificación de Levi y una
+proyección quiral, y $SU(4)$ queda ubicado como el único rango marginal en el que la celda es
+una obstrucción rígida.}
+\label{fig:roadmap}
+\end{figure}
+
+% ===================================================================
+\section{La celda del Modelo Estándar como un problema de retículo}\label{sec:cell}
+¿Qué significa, exactamente, que una representación \emph{contenga} el Modelo Estándar --- y
+podemos decidirlo por un cálculo en vez de por una búsqueda entre estados? Para afilar la
+pregunta primero reducimos una generación al objeto que debe estar presente. El color no
+juega papel activo en lo que sigue: en el modelo de la Parte~I el $SU(3)_c$ fuerte es un
+factor espectador y el bloque de quarks es $(\mathbf 3, R)$ con $R$ una representación de
+$SU(4)$, de modo que ``triplete de color'' es automático y el contenido electrodébil vive
+enteramente en $R$. El $SU(2)_L$ débil está generado por la primera raíz simple de $SU(4)$, y
+la hipercarga es una dirección de Cartan que conmuta con él. Escribiendo un peso de $SU(4)$ en
+las coordenadas de partición $(n_1,n_2,n_3,n_4)$ y las dos cargas $SU(2)_L$-invariantes
+independientes
+\[
+q_8=n_1+n_2-2n_3,\qquad q_{15}=n_1+n_2+n_3-3n_4,
+\]
+la hipercarga no rota que reproduce las cargas de quarks del Modelo Estándar es
+$Y=(-7q_8+4q_{15})/18$~\cite{PartI}, un elemento específico de la familia de dos parámetros de
+funcionales $SU(2)_L$-invariantes sin traza $Y=\alpha q_8+\beta q_{15}$.
+
+Una representación \emph{contiene la celda} si sus modos cero incluyen un doblete débil de mano
+izquierda $Q$ y dos singletes débiles de mano derecha $u,d$ cuyas cargas bajo un único tal $Y$
+son $\tfrac16,\tfrac23,-\tfrac13$. Como $Y$ es lineal y homogénea, esto es una condición exacta
+de álgebra lineal. Recogiendo los vectores de carga de los tres multipletes, la celda cierra
+precisamente cuando
+\begin{equation}\label{eq:det}
+\det\!\begin{pmatrix} q_8^{Q} & q_{15}^{Q} & \tfrac16\\[2pt]
+q_8^{u} & q_{15}^{u} & \tfrac23\\[2pt] q_8^{d} & q_{15}^{d} & -\tfrac13\end{pmatrix}=0
+\qquad\text{con el menor $2\times2$ superior no nulo,}
+\end{equation}
+es decir, el vector objetivo $(\tfrac16,\tfrac23,-\tfrac13)$ yace en el subespacio generado por
+las dos columnas de carga, de modo que una única $Y$ fija los tres valores. La
+Ecuación~\eqref{eq:det} convierte ``contiene el Modelo Estándar'' en un enunciado sobre la
+geometría afín del diagrama de pesos.
+
+Una consecuencia es inmediata y organizadora. Como
+$\tfrac16=\tfrac12\big(\tfrac23+(-\tfrac13)\big)$, la carga del doblete es la \emph{media} de
+las dos cargas de los singletes; si el doblete se sitúa en el punto medio $Q=\tfrac12(u+d)$ de
+los singletes en el espacio de cargas, entonces $Y(Q)=\tfrac16$ se cumple
+\emph{automáticamente} una vez $Y(u)=\tfrac23$ y $Y(d)=-\tfrac13$. La celda es un par de
+reflexión simétrico $\pm\tfrac12$ a ambos lados del doblete --- la cara geométrica de la
+relación de hipercarga de Pati--Salam, de medio siglo de antigüedad, $Y=T^3_R+(B-L)/2$
+\cite{PatiSalam} (con $Q_{\rm em}=T^3+Y$, de modo que $T^3_R=0$ para el doblete y $\pm\tfrac12$
+para los singletes, y $B-L=\tfrac13$ para un quark); el mismísimo $\pm\tfrac12$ que da nombre a
+la celda es el isospín de mano derecha de Pati y Salam.\footnote{Una advertencia contra un
+juego de palabras natural: el grupo que porta nuestra celda es el $SU(4)$ electrodébil del
+modelo AHMN, con el color un $SU(3)_c$ \emph{separado}; no es el $SU(4)_c$ de color de Pati y
+Salam, en el que el número leptónico es un cuarto color. Lo que tomamos prestado
+de~\cite{PatiSalam} es la relación de hipercarga, no el grupo.} El problema es ahora: ¿para qué
+$(a,b,c)$ ofrece el diagrama de pesos de $R$ tal configuración entre sus modos cero
+seleccionados por paridad?
+
+\emph{Establecido aquí:} contener el Modelo Estándar se reduce a una condición exacta de
+rango~\eqref{eq:det} sobre el diagrama de pesos, con la celda $\pm\tfrac12$ un par de reflexión
+simétrico. \emph{Abierto:} qué labels $(a,b,c)$ ofrecen de hecho esa configuración --- las tres
+condiciones del resto del trabajo.
+
+% ===================================================================
+\section{La condición del centro (clásica)}\label{sec:centre}
+Antes de preguntar \emph{dónde} se sitúan las cargas, una pregunta más contundente: ¿qué
+representaciones pueden mostrar las fracciones $\tfrac16,\tfrac23,\tfrac13$ del Modelo Estándar
+\emph{siquiera}? La primera obstrucción es aritmética y no es nuestra. El valor de una
+hipercarga sobre un peso es, salvo normalización, una combinación entera de los labels dividida
+por el orden del centro; las fracciones $\tfrac16,\tfrac23,\tfrac13$ del Modelo Estándar solo
+pueden alcanzarse desde una clase de congruencia fija. Para $SU(4)$ el invariante relevante es
+la carga del centro $\ZZ_4$, igual a la n-alidad
+\begin{equation}
+c(R)=a+2b+3c \pmod 4,
+\end{equation}
+la clase de congruencia de Slansky~\cite{Slansky}. Una comprobación directa sobre la hipercarga
+anterior muestra que las fracciones de los quarks ocurren solo cuando esta clase es
+\emph{impar}. Que la hipercarga fraccionaria esté atada a la carga del centro exactamente de
+este modo es un hecho clásico, enunciado para el propio $\ZZ_6=\ZZ_2\times\ZZ_3$ del Modelo
+Estándar por Hucks y por Saller, y reformulado en lenguaje de simetría de 1-forma /
+estructura-global por Tong y por Alonso, Dimakou y West~\cite{Hucks,Saller,Tong,Alonso}. No
+reclamamos nada de ello; registramos que, transferido al centro $\ZZ_4$ del grupo de embedding,
+es la primera de nuestras tres cláusulas.
+
+\emph{Establecido aquí:} la condición uno, $(a+2b+3c)$ impar, es la congruencia clásica de
+carga del centro, heredada no inventada. \emph{Abierto:} las dos condiciones geométricas, que
+el diagrama de pesos --- no el centro --- debe suministrar.
+
+% ===================================================================
+\section{Borra el nodo central: la torre de Levi y su proyección quiral}\label{sec:levi}
+El centro dice que las fracciones son alcanzables. Pero, ¿alcanzables \emph{juntas}, bajo una
+única hipercarga --- y dónde, en $SU(4)$ mismo, se decide eso? Las dos cláusulas restantes, y
+la razón de ellas, provienen de un único movimiento estructural. El diagrama de Dynkin de
+$SU(4)$ es un camino de tres nodos, $\circ\!-\!\circ\!-\!\circ$; \emph{borrar el nodo central}
+lo parte en dos $SU(2)$ disjuntos y deja un $U(1)$:
+\begin{equation}
+SU(4)\ \supset\ \underbrace{SU(2)_L}_{\text{nodo }\alpha_1}\ \times\
+\underbrace{SU(2)_R}_{\text{nodo }\alpha_3}\ \times\ \underbrace{U(1)_m}_{\text{borrado }\alpha_2}.
+\end{equation}
+$SU(2)_L$ es el isospín débil. El nodo borrado porta la carga $U(1)$
+\begin{equation}
+m\ :=\ 2q_8+q_{15}\ =\ 3(n_1+n_2-n_3-n_4),
+\end{equation}
+que --- como se comprueba sobre las raíces simples --- solo cambia bajo la raíz central
+$\alpha_2$ y queda fija bajo $\alpha_1,\alpha_3$: es la coordenada conjugada al nodo central.
+Esta única observación controla las dos condiciones restantes.
+
+Ramifica una irreducible $(a,b,c)$ a este Levi. Su sector de \emph{singletes} de $SU(2)_L$ ---
+el asiento de los singletes de quarks de mano derecha $u,d$ --- tiene una forma limpia
+(Figura~\ref{fig:levi}, verificada en todas las representaciones hasta dimensión $700$):
+consiste en
+\begin{equation}\label{eq:tower}
+(b+1)\ \text{copias de la torre de Clebsch--Gordan}\quad
+[\tfrac a2]\otimes[\tfrac c2]\ =\ \bigoplus_{j=|a-c|/2}^{(a+c)/2}[j],
+\end{equation}
+una copia en cada uno de los $b+1$ valores equiespaciados de $m$ (espaciado $12$, de modo que
+los singletes abarcan una extensión de nodo central de exactamente $12b$). El número de copias
+lo fija el label central $b$; el contenido de espín de $SU(2)_R$ interno lo fijan los labels
+externos $a,c$, con espín \emph{máximo} $(a+c)/2$.
+
+Ahora impón el orbifold. Sobre $T^2/\mathbb{Z}_2$ las dos paridades $\ZZ_2$ asignan quiralidad;
+en el sector de singletes están bloqueadas (una es redundante), de modo que los modos cero de
+mano derecha supervivientes son exactamente la \emph{mitad} de cada torre, y --- como las
+hipercargas distintas las fija la \emph{extensión} de la torre, es decir su espín máximo
+$(a+c)/2$ --- el recuento de huecos de carga distintos de singlete de color de mano derecha es
+\begin{equation}\label{eq:count}
+\boxed{\,N(a,b,c)\ =\ (b+1)\cdot\frac{a+c+1}{2}\,}
+\end{equation}
+(el factor externo es entero porque $a+c$ es impar siempre que la carga del centro es impar).
+La Ecuación~\eqref{eq:count} es el corazón técnico del trabajo: un recuento cerrado de
+multipletes de modos cero quirales como función de los labels de Dynkin de la representación
+bulk. El recuento factoriza como
+\[
+N=\underbrace{(b+1)(a+c+1)}_{\text{ramificación de Levi (indep.\ de dimensión)}}\ \times\ \underbrace{\tfrac12}_{\text{proyección de orbifold}},
+\]
+una forma que hace transparentes los papeles: la teoría de grupos es heredada (una evaluación
+de Littlewood--Richardson~\cite{Fulton,GW}), mientras que el partir por la mitad es la
+proyección extra-dimensional. Es la \emph{proyección quiral extremal} --- quédate con el espín
+máximo, parte por paridad --- lo que es nuestro, no la forma cerrada que produce.
+
+\emph{Establecido aquí:} un recuento cerrado de modos cero quirales $N=(b+1)(a+c+1)/2$, con
+extensión de nodo central $12b$, desde una ramificación de Levi y la proyección de paridad.
+\emph{Abierto:} cómo decide este recuento si la celda cierra --- el criterio de
+\S\ref{sec:theorem}.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\small,x=1.05cm,y=0.92cm]
+\begin{scope}[shift={(1.6,4.25)}]
+  \node[circle,draw,thick,fill=RoyalBlue!20,minimum size=6mm] (d1) at (0,0){};
+  \node[circle,draw,thick,dashed,fill=black!6,minimum size=6mm] (d2) at (1.1,0){};
+  \node[circle,draw,thick,fill=okgreen!25,minimum size=6mm] (d3) at (2.2,0){};
+  \draw[thick] (d1)--(d2)--(d3);
+  \node[below=1pt of d1,font=\footnotesize]{$\alpha_1$};
+  \node[below=1pt of d2,font=\footnotesize]{$\alpha_2$};
+  \node[below=1pt of d3,font=\footnotesize]{$\alpha_3$};
+  \node[above=1pt of d1,font=\scriptsize,RoyalBlue]{$SU(2)_L$};
+  \node[above=8pt of d2,font=\scriptsize,black!60]{$U(1)_m$ (borr.)};
+  \node[above=1pt of d3,font=\scriptsize,okgreen!60!black]{$SU(2)_R$};
+\end{scope}
+\draw[->,black!55,thick] (-0.6,-0.2) -- (7.4,-0.2) node[right,font=\footnotesize]{$q_8$ (transversal)};
+\draw[->,black!55,thick] (-0.4,-0.4) -- (-0.4,3.9) node[above,font=\footnotesize]{$m=2q_8+q_{15}$};
+\foreach \lev/\yy in {0/0.2, 1/1.2, 2/2.2, 3/3.2}{
+  \node[left,font=\scriptsize,black!55] at (-0.5,\yy){$m_\lev$};
+}
+\foreach \yy/\xa/\xb in {0.2/0.4/1.6, 1.2/1.6/2.8, 2.2/2.9/4.1, 3.2/4.2/5.4}{
+  \fill[okgreen!70!black] (\xa,\yy) circle (2.6pt);
+  \fill[okgreen!70!black] (\xb,\yy) circle (2.6pt);
+  \draw[black!25] (\xa,\yy)--(\xb,\yy);
+}
+\fill[BrickRed] (2.25,1.7) circle (2.9pt);
+\node[BrickRed,font=\scriptsize,above right] at (2.25,1.7){$Q\,(\tfrac16)$};
+\node[okgreen!55!black,font=\scriptsize,below] at (1.6,1.2){$u\,(\tfrac23)$};
+\node[okgreen!55!black,font=\scriptsize,above] at (2.9,2.2){$d\,(-\tfrac13)$};
+\draw[BrickRed,dashed,thick] (1.6,1.2)--(2.9,2.2);
+\end{tikzpicture}
+\caption{Borrar el nodo central de $SU(4)$ expone $SU(2)_L\times SU(2)_R\times U(1)_m$. Los
+modos cero de singlete de color de mano derecha (verde) forman un retículo cizallado: $b+1$
+niveles en la carga del nodo central $m$ (aquí $b=3$, cuatro niveles), cada uno portando la
+mitad de una torre de Clebsch--Gordan. Una celda del Modelo Estándar (rojo/verde, discontinua)
+es un par simétrico $\pm\tfrac12$ $u,d$ cuyo punto medio es un doblete débil $Q$ en hipercarga
+$\tfrac16$. La celda solo puede cerrar cuando el retículo es genuinamente bidimensional --- lo
+que requiere el nodo central excitado ($b\ge1$) y al menos tres singletes ($a+b+c\ge3$).}
+\label{fig:levi}
+\end{figure}
+
+% ===================================================================
+\section{El criterio de la celda}\label{sec:theorem}
+Ya disponemos de un recuento exacto de los singletes; ¿cuándo basta un recuento para cerrar una
+celda? El recuento~\eqref{eq:count} decide las dos últimas condiciones. La celda~\eqref{eq:det}
+necesita un retículo de singletes \emph{bidimensional}: tres huecos de carga no colineales, de
+modo que algún par simétrico tenga un doblete en su punto medio. Leyéndolo de la torre:
+\begin{itemize}
+\item si $b=0$ hay un único valor de $m$: todos los singletes son colineales, y ninguna
+hipercarga puede separar la celda. Por tanto $b\ge1$ es necesario --- el nodo central debe
+excitarse para abrir la dirección transversal (espín-$SU(2)_R$); la extensión es exactamente
+$12b$.
+\item con $b\ge1$, el número de singletes distintos es $N=(b+1)(a+c+1)/2$; esto cae a $N=2$
+solo en la única esquina $b=1,\ a+c=1$, i.e.\ $a+b+c=2$, donde los dos singletes disponibles
+son colineales y la celda está sobre-restringida. Para todos los demás casos $N\ge3$ y el
+retículo es bidimensional. Por tanto $a+b+c\ge3$.
+\end{itemize}
+Junto con la condición del centro esto da el criterio, que hemos verificado exhaustivamente
+contra la construcción directa~\eqref{eq:det} en todas las representaciones hasta dimensión
+$900$.
+
+\begin{teorema}[Criterio de la celda]\label{thm:cell}
+Una representación irreducible de dimensión finita $(a,b,c)$ de $SU(4)$ contiene una celda
+completa de quarks del Modelo Estándar
+$\{Q(\mathbf 2,\tfrac16),u(\mathbf 1,\tfrac23),d(\mathbf 1,-\tfrac13)\}$ entre sus modos cero
+quirales de mano derecha/izquierda de $T^2/\mathbb{Z}_2$ si y solo si
+\[
+\boxed{\;(a+2b+3c)\ \text{es impar}\quad\wedge\quad b\ge1\quad\wedge\quad a+b+c\ge3\;}
+\]
+Equivalentemente: la carga del centro es impar (aritmética), el nodo central está excitado de
+modo que el retículo de singletes de color de mano derecha se extiende $12b$ en la carga del
+nodo central (geométrica), y el retículo porta al menos tres puntos no colineales
+$N=(b+1)(a+c+1)/2\ge3$ (tamaño).
+\end{teorema}
+
+\textbf{El Teorema~\ref{thm:cell} es el resultado central de este trabajo, y el criterio es
+nuestro}: el enunciado cerrado de tres condiciones, y el recuento por proyección
+quiral~\eqref{eq:count} que lo produce, son nuevos. Lo decimos sin sobre-reclamar --- la
+Tabla~\ref{tab:gates} registra las tres cláusulas y, junto a cada una, exactamente qué se
+hereda de la teoría de grupos clásica y qué es nuevo, de modo que la autoría es explícita
+condición a condición. El criterio es escaso: hasta dimensión $400$ solo ocho representaciones
+califican (salvo conjugación), de dimensiones $60,84,140,140,216,224,280,360$, y la más
+pequeña, $(a,b,c)=(0,2,1)$ de dimensión $60$, es precisamente la $(3,\mathbf{60})$ de la
+Parte~I --- de modo que el Teorema~\ref{thm:cell} recupera, y explica, la minimalidad hallada
+allí por fuerza bruta.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{p{3.4cm}p{4.9cm}p{5.4cm}}
+\toprule
+\rowcolor{hdrblue}
+\textcolor{white}{Condición} & \textcolor{white}{Heredado (citar)} & \textcolor{white}{Nuestro}\\
+\midrule
+$(a{+}2b{+}3c)$ impar\newline\emph{(aritmética)} &
+congruencia del centro $\ZZ_4$ / n-alidad; $Y$ fraccionaria atada al
+centro~\cite{Hucks,Saller,Tong,Alonso,Slansky} &
+transferencia al $\ZZ_4$ del grupo de embedding como condición 1 de un criterio cerrado
+único\\
+\midrule
+\rowcolor{softgrey}
+$b\ge1$\newline\emph{(geométrica)} &
+ramificación de Levi / torre de Clebsch--Gordan~\cite{Fulton,GW} &
+la extensión de nodo central $=12b$; su necesidad para un doblete quiral en $Y=\tfrac16$\\
+\midrule
+$a+b+c\ge3$\newline\emph{(tamaño)} &
+--- &
+el recuento cerrado de modos cero quirales $N=(b{+}1)(a{+}c{+}1)/2$ y su umbral $N\ge3$\\
+\bottomrule
+\end{tabular}
+\caption{Las tres condiciones del Teorema~\ref{thm:cell}, y un balance honesto de qué debe cada
+una a la teoría de grupos clásica y qué es nuevo aquí. La novedad es la proyección quiral que da
+el recuento cerrado, y el empaquetado de las tres en un criterio --- no la aritmética del centro
+ni la ramificación.}
+\label{tab:gates}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.86\linewidth]{fig_cell_landscape_es.pdf}
+\caption{El paisaje de admisibilidad del Teorema~\ref{thm:cell}, sobre el plano de labels
+$(a+c,\,b)$ (la condición del centro restringe a $a+c$ impar). El fondo es el recuento exacto
+de modos cero $N=(b+1)(a+c+1)/2$; un anillo verde marca una representación que pasa las tres
+condiciones, una cruz roja una que falla. Las condiciones recortan la región admisible con
+limpieza: cae toda la fila $b=0$ (nodo central no excitado), como cae la única esquina
+$a+c=1,\,b=1$ (demasiado pequeña, $N=2$). El mínimo, $(0,2,1)=\mathbf{60}$ de la Parte~I, se
+sitúa en la esquina inferior izquierda de la región admisible. Cada marcador está calculado, no
+es esquemático.}
+\label{fig:landscape}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.80\linewidth]{fig_cell_lattice_es.pdf}
+\caption{El retículo de pesos de singletes de color de mano derecha de una representación
+admisible concreta, $(0,3,3)$, calculado exactamente. Los singletes (relleno, coloreados por la
+carga del nodo central $m=2q_8+q_{15}$) forman el retículo cizallado
+$(b{+}1)\times\frac{a+c+1}{2}$ de \S\ref{sec:levi} --- aquí cuatro niveles de $m$ ($b=3$). Los
+cuadrados grises tenues son los dobletes débiles. Una celda del Modelo Estándar (rojo) es un par
+simétrico $\pm\tfrac12$ $u,d$ cuyo punto medio es un doblete $Q$; el cizallamiento es
+exactamente lo que permite que tres puntos no sean colineales, para que la celda pueda cerrar.
+Estos son los datos tras el esquema de la Figura~\ref{fig:levi}.}
+\label{fig:latticereal}
+\end{figure}
+
+% ===================================================================
+\section{Un inciso sobre la independencia del nodo}\label{sec:nodeindep}
+¿Por qué es tan limpio ese recuento --- es $(a{+}1)(b{+}1)(c{+}1)$ un accidente de $SU(4)$, o
+insiste el grupo en ello? La forma limpia de~\eqref{eq:count} descansa en un pequeño hecho
+general que vale la pena aislar, aunque solo sea para ver dónde acaba la pulcritud de $SU(4)$.
+Para una raíz simple $\alpha$, escribe $\dim\mathrm{Inv}_\alpha(V)$ para la dimensión del
+subespacio de una representación $V$ aniquilado por el $SU(2)$ generado por $\alpha$.
+
+\begin{lema}\label{lem:node}
+Para cualquier representación irreducible de un álgebra de Lie simple, $\dim\mathrm{Inv}_\alpha(V)$
+depende solo de la órbita de Weyl --- equivalentemente la longitud --- de la raíz simple
+$\alpha$. En un álgebra simply-laced (todas las raíces de una longitud, luego una órbita de
+Weyl) es por tanto independiente de qué raíz simple se elija; en un álgebra no-simply-laced toma
+a lo sumo dos valores, uno para raíces largas y otro para cortas.
+\end{lema}
+
+\begin{proof}
+Las multiplicidades de peso son Weyl-invariantes. Para $w$ en el grupo de Weyl,
+$\langle w\mu,(w\alpha)^\vee\rangle=\langle\mu,\alpha^\vee\rangle$, de modo que la distribución
+de $\alpha$-autovalores sobre el multiconjunto (Weyl-estable) de pesos es la misma para $\alpha$
+y $w\alpha$; luego también lo es $\dim\mathrm{Inv}_\alpha=N_\alpha(0)-N_\alpha(2)$. En un álgebra
+simply-laced todas las raíces yacen en una órbita de Weyl.
+\end{proof}
+
+Para $SU(4)$ (tipo $A_3$, simply-laced) la dimensión de invariantes es así la misma en cada
+nodo, e igual al producto limpio $(a+1)(b+1)(c+1)$. Esta forma-producto, sin embargo, es
+especial de $A_3$: es el factor lineal del polinomio de dimensión de Weyl de $A_3$, y falla ya
+para $SU(5)$, donde el valor node-independiente es una suma de Littlewood--Richardson sin tal
+factorización (por ejemplo toma el valor primo $11$ en los labels $(1,1,0,0)$, que ningún
+producto de factores lineales reproduce a lo largo del retículo). Verificamos el
+Lema~\ref{lem:node} en los tipos $A_2\!-\!A_4,\,D_4$ (node-independientes) y
+$B_2,B_3,C_3,G_2,F_4$ (dos valores, divididos exactamente por raíz larga/corta, p.ej.\ $F_4$
+dando $[21,21,15,15]$). El lema es elemental y probablemente folklore; lo incluimos porque
+identifica precisamente cuál de las coincidencias de $SU(4)$ es genérica (la
+node-independencia) y cuál excepcional (el producto), y esta última es uno de varios sentidos
+en que $SU(4)$ es especial --- el tema de la siguiente sección.
+
+% ===================================================================
+\section{¿Por qué $SU(4)$? El rango crítico}\label{sec:rank}
+¿Es el criterio un enunciado sobre el Modelo Estándar, o sobre $SU(4)$? Agranda el grupo, y la
+respuesta separa ambos. El Teorema~\ref{thm:cell} es sobre $SU(4)$; si la misma rigidez
+sobrevive para grupos mayores afila lo que ``$SU(4)$'' está haciendo en realidad. La celda
+impone tres restricciones de carga, $Y(Q)=\tfrac16$, $Y(u)=\tfrac23$, $Y(d)=-\tfrac13$, sobre
+un funcional de hipercarga que, por ser sin traza y $SU(2)_L$-invariante, tiene
+$\mathrm{rango}(G)-1$ parámetros libres. El recuento es toda la historia:
+\begin{center}\small
+\begin{tabular}{lccl}
+\toprule
+\rowcolor{hdrblue}
+\textcolor{white}{grupo} & \textcolor{white}{rango} & \textcolor{white}{parámetros de $Y$} &
+\textcolor{white}{la celda}\\
+\midrule
+\rowcolor{softgrey}
+$\boldsymbol{SU(4)}$ & $\mathbf 3$ & $\mathbf 2$ &
+\textcolor{BrickRed}{\textbf{sobredeterminada}} --- condición aritmética rígida\\
+$SU(5)$ & $4$ & $3$ & \textcolor{okgreen}{\textbf{marginalmente resoluble}} --- se disuelve\\
+\rowcolor{softgrey}
+$SU(6)$ & $5$ & $4$ & \textcolor{RoyalBlue}{\textbf{subdeterminada}} --- reps genéricas admiten\\
+\bottomrule
+\end{tabular}
+\end{center}
+Con tres restricciones y $\mathrm{rango}(G)-1$ parámetros, la celda es una obstrucción genuina
+(un alineamiento de medida nula) exactamente cuando $\mathrm{rango}(G)-1<3$, i.e.\ en
+$\mathrm{rango}=3$. Entre los grupos simples suficientemente grandes para contener la celda,
+$SU(4)$ es el único caso marginal; en rango $4$ y superior una representación libre de
+anomalías \emph{genérica} admite, siendo la única obstrucción residual el tener demasiado pocos
+modos supervivientes. Lo hemos comprobado directamente: con una hipercarga libre, el $73\%$ de
+las representaciones de $SU(5)$ y el $85\%$ de las de $SU(6)$ (hasta dimensión $200$) admiten,
+en todas las clases del centro, mientras que $SU(4)$ permanece escaso y selectivo en el centro.
+La aritmética ``rango $\ge$ algo'' es clásica; lo que la celda añade es la lectura de que
+$SU(4)$ se sitúa exactamente en su margen.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.68\linewidth]{fig_cell_dissolution_es.pdf}
+\caption{La condición rígida de la celda se disuelve sobre el rango crítico. Con un funcional
+de hipercarga libre ($\mathrm{rango}(G)-1$ parámetros contra tres restricciones), $SU(4)$
+(rango $3$) está sobredeterminada y admite solo un conjunto escaso y selectivo en el centro;
+$SU(5)$ y $SU(6)$ (rango $\ge4$) pasan a ser genéricamente resolubles, y una gran fracción de
+representaciones admite en \emph{todas} las clases del centro (medido hasta dimensión $200$). La
+transición es el recuento de \S\ref{sec:rank}, no una propiedad de un grupo concreto.}
+\label{fig:dissolution}
+\end{figure}
+
+Hay una advertencia honesta que es también la física útil. ``Se disuelve en rango mayor''
+supone que la hipercarga es \emph{libre} de ser cualquier combinación superviviente. En un
+modelo real la hipercarga a menudo está \emph{fijada} --- fijada, digamos, por el requisito
+$\sin^2\theta_W=\tfrac14$ que motiva estas construcciones de $SU(4)$. Fijar consume los
+parámetros libres, y entonces la obstrucción puede volver a cualquier rango. Esto es justo lo
+que sucede en el reciente modelo grand gauge--Higgs de $SU(7)$ de Komori y Maru, donde el
+generador de hipercarga bulk, fijado para reproducir $\sin^2\theta_W$, asigna solo cargas
+enteras y semienteras, ``de modo que las hipercargas fraccionarias de los quarks no pueden
+obtenerse de los campos [bulk]'' y los quarks son forzados a una brana~\cite{KomoriMaru}.
+Nuestro recuento lee su hecho entero/semientero como un resultado de
+grados-de-libertad-consumidos: con la hipercarga fijada, no queda libertad de Cartan residual
+para colocar la celda fraccionaria sobre tripletes de color bulk. La mitad robusta de la
+historia es la que no depende de la suposición: $SU(4)$ es rígido \emph{incluso bajo máxima
+libertad de hipercarga}, y por eso su criterio de celda es tan afilado como el
+Teorema~\ref{thm:cell}.
+
+\emph{Establecido aquí:} $SU(4)$ es el único rango en que la celda es una obstrucción rígida
+bajo hipercarga libre, y el mismo recuento explica la obstrucción bulk-quark de rango mayor
+como un efecto de libertad-consumida. \emph{Abierto:} la dependencia precisa del orbifold
+$\ZZ_N$ y del $n$ general, expuesta a continuación.
+
+% ===================================================================
+\section{Reflexiones y propuestas}\label{sec:reflections}
+Tres hilos parecen dignos de tirar.
+
+\paragraph{La celda es el invariante.} A lo largo de los grupos anteriores, el álgebra gauge, la
+representación, la dimensión y el centro cambian todos; la celda $\pm\tfrac12$ no. Es el
+esqueleto de isospín débil de una generación, el mismo objeto en todo embedding, y el criterio
+se lee mejor no como ``qué representaciones de $SU(4)$'' sino como ``¿contiene el grupo la celda
+en el sector de centro correcto, con sitio para cerrarla?''. El centro suministra la aritmética,
+la geometría suministra el sitio; la celda suministra el objetivo.
+
+\paragraph{La dimensión es una segunda perilla.} El recuento factoriza como (ramificación de
+Levi) $\times$ (proyección de orbifold). El primer factor es independiente de la dimensión; el
+segundo es donde entra la compactificación. Una única $\ZZ_2$ actuando sobre el eje de
+quiralidad parte los modos por la mitad; una $\ZZ_2$ bloqueada a un eje existente --- como lo
+está la segunda paridad de $T^2/\mathbb{Z}_2$ sobre el sector de singletes, de modo que los
+recuentos en cinco y seis dimensiones aquí coinciden --- no; un orbifold $\ZZ_N$ retiene una
+fracción $1/N$. Proyecciones de dimensión mayor o de $N$ mayor por tanto \emph{encogen} el
+recuento de modos, de modo que la obstrucción de pequeñez-geométrica (la única que queda en
+rango gauge alto) puede revivir. El rango gauge y la proyección de orbifold son perillas
+opuestas sobre la misma celda: una disuelve la condición aritmética, la otra aprieta la
+geométrica. Hacer de la dependencia $\ZZ_N$ un teorema de recuento preciso es un paso siguiente
+limpio.
+
+\paragraph{Una forma cerrada más allá de $SU(4)$.} El Lema~\ref{lem:node} deja abierta la
+dimensión de invariantes node-independiente exacta para $SU(n)$: es una suma de
+Littlewood--Richardson cuya especialización a $SU(4)$ resulta ser un producto. Si admite una
+forma cerrada de hook-content o determinantal --- y si los valores ``triangulares'' de $SU(5)$
+$\binom{k+2}{2}=\dim\mathrm{Sym}^k(\mathbb C^{3})$ generalizan a
+$\dim\mathrm{Sym}^k(\mathbb C^{n-2})$ para todas las potencias simétricas --- es una pregunta
+combinatoria bien planteada que nuestros datos ya restringen.
+
+% ===================================================================
+\section{Conclusión}\label{sec:conclusion}
+Hemos convertido la minimalidad observada en la Parte~I en una regla exacta. Una representación
+$(a,b,c)$ de $SU(4)$ contiene una celda de quarks del Modelo Estándar sobre $T^2/\mathbb{Z}_2$
+si y solo si su carga del centro es impar, su nodo central está excitado, y sus labels suman al
+menos tres; la derivación corre por una ramificación de Levi cuya torre de Clebsch--Gordan,
+proyectada sobre los modos cero quirales del orbifold, da el recuento cerrado
+$N=(b+1)(a+c+1)/2$. Hemos sido deliberados con el crédito: la aritmética del centro, la
+ramificación, y el recuento de parámetros de hipercarga son clásicos, y los citamos como tales;
+lo nuestro es la proyección quiral que produce el recuento cerrado, el empaquetado en un único
+criterio, y la lectura de la celda $\pm\tfrac12$ como el invariante que sitúa a $SU(4)$ en el
+rango crítico. Lo último también explica, en vez de meramente reformular, por qué las
+construcciones de rango mayor con hipercarga fijada no pueden mantener sus quarks en el bulk. El
+criterio es exacto y verificado por máquina; las preguntas que abre --- la forma cerrada para
+$n$ general y la dependencia dimensional $\ZZ_N$ --- están enunciadas con precisión suficiente
+para ser zanjadas. Y cierra de vuelta sobre el hilo que la Parte~I dejó colgando: la viabilidad
+se decide modelo a modelo, pero un modelo debe primero ser \emph{elegible}, y el
+Teorema~\ref{thm:cell} es el test de elegibilidad --- dice qué representaciones pueden siquiera
+entrar en la búsqueda de una generación viable de $SU(4)$ en seis dimensiones. De un testigo al
+paisaje en que vive, ese es el arco de los dos trabajos.
+
+\paragraph{Reproducibilidad.} Todo recuento se regenera desde los scripts anexos de SageMath:
+la construcción directa de la celda~\eqref{eq:det}, la derivación por ramificación de Levi
+de~\eqref{eq:count}, la comprobación exhaustiva del criterio hasta dimensión $900$, los barridos
+de rango de $SU(5)/SU(6)$, y el barrido de node-independencia a lo largo de los tipos de Lie del
+Lema~\ref{lem:node}.
+
+\begin{thebibliography}{99}
+\bibitem{PartI} C.~Mar\'in, \emph{Anomaly- and Tadpole-Compatible Fermion Completion of
+Six-Dimensional $SU(4)$ Gauge--Higgs Unification} (Parte~I), Zenodo (2026),
+DOI:\,10.5281/zenodo.21432625.
+\bibitem{SSSW} C.A.~Scrucca, M.~Serone, L.~Silvestrini, A.~Wulzer, \emph{Gauge-Higgs
+Unification in Orbifold Models}, JHEP \textbf{02} (2004) 049, hep-th/0312267.
+\bibitem{AHMN} K.~Akamatsu, T.~Hirose, N.~Maru, A.~Nago, \emph{Two Higgs Doublet Model from
+Gauge--Higgs Unification in Six Dimensions}, arXiv:2603.05857; y
+\emph{Gauge--Higgs Unification of $SU(4)$ Model}, arXiv:2312.08608.
+\bibitem{PatiSalam} J.C.~Pati, A.~Salam, \emph{Lepton Number as the Fourth Color},
+Phys.\ Rev.\ D \textbf{10} (1974) 275; Erratum \emph{ibid.} \textbf{11} (1975) 703.
+\bibitem{GeorgiGlashow} H.~Georgi, S.L.~Glashow, \emph{Unity of All Elementary Particle
+Forces}, Phys.\ Rev.\ Lett.\ \textbf{32} (1974) 438.
+\bibitem{SO10FM} H.~Fritzsch, P.~Minkowski, \emph{Unified Interactions of Leptons and
+Hadrons}, Ann.\ Phys.\ \textbf{93} (1975) 193.
+\bibitem{SO10G} H.~Georgi, \emph{The State of the Art --- Gauge Theories}, en
+\emph{Particles and Fields 1974}, AIP Conf.\ Proc.\ \textbf{23} (1975) 575.
+\bibitem{E6} F.~G\"ursey, P.~Ramond, P.~Sikivie, \emph{A Universal Gauge Theory Model Based
+on $E_6$}, Phys.\ Lett.\ B \textbf{60} (1976) 177.
+\bibitem{GeorgiFlavor} H.~Georgi, \emph{Towards a Grand Unified Theory of Flavor},
+Nucl.\ Phys.\ B \textbf{156} (1979) 126.
+\bibitem{Slansky} R.~Slansky, \emph{Group theory for unified model building},
+Phys.\ Rept.\ \textbf{79} (1981) 1.
+\bibitem{Yamatsu} N.~Yamatsu, \emph{Special Grand Unification}, PTEP \textbf{2017} 061B01,
+arXiv:1704.08827.
+\bibitem{HermsRuhdorfer} J.~Herms, M.~Ruhdorfer, \emph{How common are grand unified
+theories?}, Phys.\ Rev.\ D \textbf{112} (2026) 115041, arXiv:2408.11089.
+\bibitem{Hucks} J.~Hucks, \emph{Global structure of the standard model, anomalies, and
+charge quantization}, Phys.\ Rev.\ D \textbf{43} (1991) 2709.
+\bibitem{Saller} M.~Saller, \emph{The Central Correlations of Hypercharge, Isospin, Colour
+and Chirality in the Standard Model}, Nuovo Cim.\ A \textbf{111} (1998) 1375,
+arXiv:hep-th/9802112.
+\bibitem{Tong} D.~Tong, \emph{Line Operators in the Standard Model}, JHEP \textbf{07}
+(2017) 104, arXiv:1705.01853.
+\bibitem{Alonso} R.~Alonso, D.~Dimakou, J.~West, \emph{Fractional-charge hadrons and
+leptons to tell the Standard Model group apart}, arXiv:2404.03438.
+\bibitem{ArandaWudka} A.~Aranda, J.~Wudka, \emph{Constraints on realistic gauge-Higgs
+unified models}, Phys.\ Rev.\ D \textbf{82} (2010) 096005, arXiv:1008.3945.
+\bibitem{KomoriMaru} K.~Komori, N.~Maru, \emph{$SU(7)$ Grand Gauge--Higgs Unification},
+arXiv:2503.04090.
+\bibitem{Fulton} W.~Fulton, \emph{Young Tableaux}, London Math.\ Soc.\ Student Texts
+\textbf{35}, Cambridge University Press (1997).
+\bibitem{GW} R.~Goodman, N.R.~Wallach, \emph{Symmetry, Representations, and Invariants},
+Graduate Texts in Mathematics \textbf{255}, Springer (2009).
+\bibitem{KawamuraGUT} Y.~Kawamura, \emph{Triplet-doublet splitting, proton stability and
+extra dimension}, Prog.\ Theor.\ Phys.\ \textbf{105} (2001) 999, arXiv:hep-ph/0012125.
+\end{thebibliography}
+
+\end{document}
