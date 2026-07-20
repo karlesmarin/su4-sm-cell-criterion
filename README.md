@@ -7,11 +7,14 @@
 
 **📄 Paper (EN + ES) & all verification scripts on Zenodo → https://doi.org/10.5281/zenodo.21432628**
 
-> ### 📚 Part **II** of a two-part series
-> This work continues Part I directly. Read them together:
-> - **Part I — *Anomaly- and Tadpole-Compatible Fermion Completion of 6D SU(4) GHU*** (embeds the SM quarks in $(3,\mathbf{60})$, proves the tadpole never obstructs)
->   → repo **[github.com/karlesmarin/ghu-su4-completion](https://github.com/karlesmarin/ghu-su4-completion)** · [Zenodo 10.5281/zenodo.21432625](https://doi.org/10.5281/zenodo.21432625)
+> ### 📚 Part **II** of a series
+> - **Part I — *Anomaly- and Tadpole-Compatible Fermion Completion of 6D SU(4) GHU***
+>   → [github.com/karlesmarin/ghu-su4-completion](https://github.com/karlesmarin/ghu-su4-completion) · [Zenodo 10.5281/zenodo.21432625](https://doi.org/10.5281/zenodo.21432625)
 > - **Part II — *Three Gates to a Quark Generation*** (this repo): the exact criterion for *which* $SU(4)$ representations contain the SM quark cell.
+> - **Part III — *A Centre-Charge Selection Rule for the Wilson-Line Potential***
+>   → [github.com/karlesmarin/centre-parity-selection](https://github.com/karlesmarin/centre-parity-selection) · [Zenodo 10.5281/zenodo.21438226](https://doi.org/10.5281/zenodo.21438226)
+> - **Part IV — *Schur Functions at $(1,-1,t,t^{-1})$***
+>   → [github.com/karlesmarin/schur-nonidentity-o4](https://github.com/karlesmarin/schur-nonidentity-o4) · [Zenodo 10.5281/zenodo.21463000](https://doi.org/10.5281/zenodo.21463000)
 
 **An exact criterion for which $SU(4)$ representations contain the Standard Model.** Part I embedded the
 Standard-Model quarks in the dimension-60 representation $(3,\mathbf{60})$ of $SU(4)$ on $T^2/\mathbb{Z}_2$
