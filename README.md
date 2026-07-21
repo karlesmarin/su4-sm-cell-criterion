@@ -1,16 +1,16 @@
 # ⚛️ Three Gates to a Quark Generation
 
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21432628-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.21432628)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21432627-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.21432627)
 [![License](https://img.shields.io/badge/License-Apache_2.0-B5530F)](LICENSE)
 [![Verified](https://img.shields.io/badge/SageMath-exact_to_dim_900-2C2C2C)](https://www.sagemath.org/)
 [![Language](https://img.shields.io/badge/paper-EN_%2B_ES-1B6F8C)](.)
 
-**📄 Paper (EN + ES) & all verification scripts on Zenodo → https://doi.org/10.5281/zenodo.21432628**
+**📄 Paper (EN + ES) & all verification scripts on Zenodo → https://doi.org/10.5281/zenodo.21432627**
 
 > ### 📚 Part **II** of a series
 > - **Part I — *Anomaly- and Tadpole-Compatible Fermion Completion of 6D SU(4) GHU***
 >   → [github.com/karlesmarin/ghu-su4-completion](https://github.com/karlesmarin/ghu-su4-completion) · [Zenodo 10.5281/zenodo.21432625](https://doi.org/10.5281/zenodo.21432625)
-> - **Part II — *Three Gates to a Quark Generation*** (this repo): the exact criterion for *which* $SU(4)$ representations contain the SM quark cell.
+> - **Part II — *Three Gates to a Quark Generation*** (this repo)
 > - **Part III — *A Centre-Charge Selection Rule for the Wilson-Line Potential***
 >   → [github.com/karlesmarin/centre-parity-selection](https://github.com/karlesmarin/centre-parity-selection) · [Zenodo 10.5281/zenodo.21438226](https://doi.org/10.5281/zenodo.21438226)
 > - **Part IV — *Schur Functions at $(1,-1,t,t^{-1})$***
@@ -103,7 +103,7 @@ mapped to the theorem it verifies.
 ## 📜 License & citation
 
 Released under [Apache 2.0](LICENSE). Please cite the Zenodo record
-**[10.5281/zenodo.21432628](https://doi.org/10.5281/zenodo.21432628)**. Author: **Carles Marín**
+**[10.5281/zenodo.21432627](https://doi.org/10.5281/zenodo.21432627)**. Author: **Carles Marín**
 (independent researcher). The exact computations were carried out and cross-checked with Claude (Anthropic)
 as an AI research assistant against a common machine-verifiable ground truth (exact rational arithmetic on
 $SU(n)$ weight systems).
