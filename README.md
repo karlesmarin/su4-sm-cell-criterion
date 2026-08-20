@@ -17,6 +17,8 @@
 >   → [github.com/karlesmarin/schur-nonidentity-o4](https://github.com/karlesmarin/schur-nonidentity-o4) · [Zenodo 10.5281/zenodo.21463000](https://doi.org/10.5281/zenodo.21463000)
 > - **Part V — *What the Higgs Potential Cannot See***
 >   → [github.com/karlesmarin/higgs-blind-class](https://github.com/karlesmarin/higgs-blind-class) · [Zenodo 10.5281/zenodo.21727094](https://doi.org/10.5281/zenodo.21727094)
+> - **Part VI — *Proton Decay in SU(7) Grand Gauge-Higgs Unification***
+>   → [github.com/karlesmarin/su7-proton-row](https://github.com/karlesmarin/su7-proton-row) · [Zenodo 10.5281/zenodo.22033302](https://doi.org/10.5281/zenodo.22033302)
 
 **An exact criterion for which $SU(4)$ representations contain the Standard Model.** Part I embedded the
 Standard-Model quarks in the dimension-60 representation $(3,\mathbf{60})$ of $SU(4)$ on $T^2/\mathbb{Z}_2$
